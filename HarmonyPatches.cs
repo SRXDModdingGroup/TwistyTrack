@@ -82,9 +82,9 @@ namespace TwistyTrack
                         {
                             turnAmount = new UnityEngine.Vector3()
                             {
-                                x = random.Next(-5, 6) * 10 / t,
-                                y = random.Next(-5, 6) * 10 / t,
-                                z = random.Next(-5, 6) * 10 / t
+                                x = random.Next(-5, 6) * 3 * t,
+                                y = random.Next(-5, 6) * 3 * t,
+                                z = random.Next(-5, 6) * 3 * t
                             },
                             length = t,
                             startTime = currentTime,

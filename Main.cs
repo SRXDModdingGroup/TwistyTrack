@@ -9,7 +9,7 @@ namespace TwistyTrack
     {
         public const string MOD_ID = "TwistyTrack";
         public const string MOD_NAME = "Twisty Track";
-        public const string MOD_VERSION = "0.1.0";
+        public const string MOD_VERSION = "0.1.1";
 
         public static BepInEx.Logging.ManualLogSource Logger;
 
