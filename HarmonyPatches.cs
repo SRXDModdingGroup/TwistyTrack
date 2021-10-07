@@ -11,6 +11,8 @@ namespace TwistyTrack
         private static XDCustomLevelSelectMenu menuCustomRef;
         private static bool isInCustomsMenu = false;
 
+        private static int TwistStrength = 3;
+
         [HarmonyPatch(typeof(XDLevelSelectMenuBase), nameof(XDLevelSelectMenuBase.OpenMenu))]
         [HarmonyPostfix]
         private static void GetMenuRef(XDLevelSelectMenuBase __instance)
@@ -36,20 +38,20 @@ namespace TwistyTrack
             // Logging history
             // This is a cry for help
 
-            //if (isInCustomsMenu)
-            //{
-            //    Main.Logger.LogMessage("Customs Menu");
-            //    Main.Logger.LogMessage($"Index: {menuCustomRef.currentDifficultyButtonIndex}");
-            //    Main.Logger.LogMessage($"Difficulty: {Track.Instance.playStateFirst.CurrentDifficulty}");
-            //    Main.Logger.LogMessage($"TrackDataMetadata.Count: {menuCustomRef.CurrentMetaDataHandle.TrackDataMetadata.trackDataMetadata.Count}");
-            //    Main.Logger.LogMessage($"Duration: {GetDurationForCustom()}");
-            //}
+            if (isInCustomsMenu)
+            {
+                Main.Logger.LogMessage("Customs Menu");
+                Main.Logger.LogMessage($"Index: {menuCustomRef.currentDifficultyButtonIndex}");
+                Main.Logger.LogMessage($"Difficulty: {Track.Instance.playStateFirst.CurrentDifficulty}");
+                Main.Logger.LogMessage($"TrackDataMetadata.Count: {menuCustomRef.CurrentMetaDataHandle.TrackDataMetadata.trackDataMetadata.Count}");
+                Main.Logger.LogMessage($"Duration: {GetDurationForCustom()}");
+            }
             //else
             //{
             //    Main.Logger.LogMessage("Not Customs");
             //    Main.Logger.LogMessage(menuBaseRef.CurrentMetaDataHandle.TrackDataMetadata.trackDataMetadata[menuBaseRef.currentDifficultyButtonIndex].Duration);
             //}
-            
+
             // TODO:
             // - Get Track Metadata
             // - Seeded Random Shenanigans
@@ -82,14 +84,15 @@ namespace TwistyTrack
                         {
                             turnAmount = new UnityEngine.Vector3()
                             {
-                                x = random.Next(-5, 6) * 3 * t,
-                                y = random.Next(-5, 6) * 3 * t,
-                                z = random.Next(-5, 6) * 3 * t
+                                x = random.Next(-5, 6) * TwistStrength * t,
+                                y = random.Next(-5, 6) * TwistStrength * t,
+                                z = random.Next(-5, 6) * TwistStrength * t
                             },
                             length = t,
                             startTime = currentTime,
                         },
-                        data = new SplinePathData(),
+                        //data = new SplinePathData(),
+                        data = UnityEngine.ScriptableObject.CreateInstance<SplinePathData>(),
                         defaultSettings = new TrackTurnDefaultSettings(),
                         indexInData = 0,
                         timeOffset = 0,
@@ -98,7 +101,7 @@ namespace TwistyTrack
                 }
                 while (currentTime < duration);
                 cachedPaths.Add(toHash, turns);
-                Main.Logger.LogMessage($"Cached track path for {info.name} - {info.artistName}, charted by {info.charter}");
+                Main.Logger.LogMessage($"Cached track path for {info.title} - {info.artistName}, charted by {info.charter}");
             }
             Track.Instance.PlayHandle.spline.trackTurns.Clear();
             foreach (Spline.TrackTurnAndContext turn in cachedPaths[toHash])
@@ -107,6 +110,9 @@ namespace TwistyTrack
 
         private static float GetDurationForCustom()
         {
+            if (menuCustomRef.CurrentMetaDataHandle.TrackDataMetadata.trackDataMetadata.Count < 5)
+                return menuCustomRef.CurrentMetaDataHandle.TrackDataMetadata.trackDataMetadata[menuCustomRef.currentDifficultyButtonIndex].Duration;
+
             int diff = 0;
             switch (Track.Instance.playStateFirst.CurrentDifficulty)
             {
