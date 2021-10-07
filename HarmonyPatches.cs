@@ -38,14 +38,14 @@ namespace TwistyTrack
             // Logging history
             // This is a cry for help
 
-            if (isInCustomsMenu)
-            {
-                Main.Logger.LogMessage("Customs Menu");
-                Main.Logger.LogMessage($"Index: {menuCustomRef.currentDifficultyButtonIndex}");
-                Main.Logger.LogMessage($"Difficulty: {Track.Instance.playStateFirst.CurrentDifficulty}");
-                Main.Logger.LogMessage($"TrackDataMetadata.Count: {menuCustomRef.CurrentMetaDataHandle.TrackDataMetadata.trackDataMetadata.Count}");
-                Main.Logger.LogMessage($"Duration: {GetDurationForCustom()}");
-            }
+            //if (isInCustomsMenu)
+            //{
+            //    Main.Logger.LogMessage("Customs Menu");
+            //    Main.Logger.LogMessage($"Index: {menuCustomRef.currentDifficultyButtonIndex}");
+            //    Main.Logger.LogMessage($"Difficulty: {Track.Instance.playStateFirst.CurrentDifficulty}");
+            //    Main.Logger.LogMessage($"TrackDataMetadata.Count: {menuCustomRef.CurrentMetaDataHandle.TrackDataMetadata.trackDataMetadata.Count}");
+            //    Main.Logger.LogMessage($"Duration: {GetDurationForCustom()}");
+            //}
             //else
             //{
             //    Main.Logger.LogMessage("Not Customs");
